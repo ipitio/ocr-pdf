@@ -15,6 +15,7 @@ if [[ -f venv/bin/pip3 ]]; then
     deactivate
     [[ "$pdf_dir" == "." ]] || rm -rf venv
 elif [[ -f /.dockerenv ]]; then
+    export PATH="$PATH:/root/.local/bin"
     pip3 install -r requirements.txt --user --break-system-packages
     python3 ./main.py "$pdf_dir"
     rm -rf venv
