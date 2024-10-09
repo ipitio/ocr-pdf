@@ -8,8 +8,13 @@ export OMP_THREAD_LIMIT=1
 python3 -m venv venv
 source venv/bin/activate
 
-./venv/bin/pip3 install -r requirements.txt
-./venv/bin/python3 ./main.py "$pdf_dir"
+if [[ -f venv/bin/pip3 ]]; then
+    ./venv/bin/pip3 install -r requirements.txt
+    ./venv/bin/python3 ./main.py "$pdf_dir"
 
-deactivate
-[[ "$pdf_dir" == "." ]] || rm -rf venv
+    deactivate
+    [[ "$pdf_dir" == "." ]] || rm -rf venv
+elif [[ -f /.dockerenv ]]; then
+    pip3 install -r requirements.txt --break-system-packages
+    python3 ./main.py "$pdf_dir"
+fi
