@@ -3,6 +3,7 @@
 
 set -Eeuo pipefail
 declare -r pdf_dir="${1:-.}"
+export OMP_THREAD_LIMIT=1
 
 python3 -m venv venv
 source venv/bin/activate
