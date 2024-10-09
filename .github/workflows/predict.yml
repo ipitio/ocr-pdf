@@ -1,0 +1,39 @@
+name: predict
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run inference
+        uses: hoverkraft-tech/compose-action
+        with:
+          compose-file: "./compose.yml"
+
+      - name: Sync local
+        run: |
+          git pull --rebase --autostash
+          git merge --abort 2>/dev/null
+          git pull --rebase --autostash -s ours &>/dev/null
+
+      - name: Save predictions
+        id: commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "-- *.pdf"
+          message: "enhanced pdfs"
