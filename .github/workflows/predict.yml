@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  update:
+  inference:
     runs-on: ubuntu-latest
 
     permissions:

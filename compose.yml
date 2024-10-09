@@ -1,5 +1,6 @@
 services:
     predict:
+        container_name: ocr-pdf
         build: ./src
         # image: ghcr.io/ipitio/ocr-pdf:latest
         volumes:
