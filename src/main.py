@@ -25,21 +25,23 @@ def process_pdfs(base: Path = Path(".")):
 
     def predict(input_file: Path, output_file: Path):
         relative_path = input_file.relative_to(base / "todo")
+        images = convert_from_path(input_file, dpi=300, fmt="jpeg")
+
+        try:
+            input_file.unlink()
+        except:
+            pass
+
         print(f"Processing {relative_path}...")
 
         # Create a PDF file to store the OCR results
         doc = fitz.open()
 
         # Perform OCR on the images
-        for image in convert_from_path(input_file, dpi=300, fmt="jpeg"):
+        for image in images:
             prediction = pytesseract.image_to_pdf_or_hocr(image, extension="pdf")
             doc.insert_pdf(fitz.open("pdf", prediction))
             gc.collect()
-
-        try:
-            input_file.unlink()
-        except:
-            pass
 
         # Save the OCR results to a new PDF file
         doc.save(output_file, garbage=4, deflate=True)
