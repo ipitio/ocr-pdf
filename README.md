@@ -30,8 +30,8 @@ services:
   ocr-pdf:
     image: ghcr.io/ipitio/ocr-pdf
     volumes:
-      - ./pdf/todo:/pdf/todo
-      - ./pdf/done:/pdf/done
+      - ./pdf/todo:todo
+      - ./pdf/done:done
 ```
 
 1. Run `docker compose up` to OCR the PDFs and move them into `./pdf/done`

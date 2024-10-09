@@ -4,5 +4,5 @@ services:
         build: ./src
         # image: ghcr.io/ipitio/ocr-pdf:latest
         volumes:
-            - ./pdf/todo:/app/todo
-            - ./pdf/done:/app/done
+            - ./pdf/todo:todo
+            - ./pdf/done:done
