@@ -38,14 +38,10 @@ def process_pdfs(base: Path = Path(".")):
 
     # parallel:
     Parallel(n_jobs=-1)(
-        delayed(predict)(
-            input_file,
-            Path(str(input_file).replace("todo", "done")),
-        )
+        delayed(predict)(Path(root) / file, Path(root.replace("todo", "done")) / file)
         for root, _, files in os.walk(base / "todo")
-        for input_file in (
-            Path(root) / file for file in files if file.lower().endswith(".pdf")
-        )
+        for file in files
+        if file.lower().endswith(".pdf")
     )
 
     # sequential:

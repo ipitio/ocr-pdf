@@ -1,10 +1,8 @@
 # OCR PDF
 
-Make your unsearchable PDFs searchable with the help of automation, virtualization, and deep learning!
+Make your unsearchable PDFs searchable with the help of automation, virtualization, and a pretrained deep learning model!
 
-Don't get too excited though, this goal of this project is to abstact away that last part as much as possible. Not only will we not train Tesseract, we won't even come into direct contact with it! The closest we'll get is running a Python script using the `pytesseract` library, a wrapper for Google's LSTM-based OCR engine, in a Jupyter notebook. Bash, Docker, and GitHub Actions, let us distance ourselves even further.
-
-The Python script gets all the PDFs in `todo`, converts their pages to OCR'd images, and then combines these into new PDFs. The Bash script installs the necessary dependencies for and runs the Python script in a virtual environment. Docker sets up another virtual environment with Python, Tesseract, and Poppler and calls the Bash script. The GitHub Actions workflow starts the Docker container in yet a third virtual layer, this time in the cloud.
+The core logic resides in a Python script that gets all the PDFs in `todo`, converts their pages to OCR'd images with Google's LSTM-based OCR engine Tesseract, and combines these into new PDFs in `done`. The Bash script installs the necessary libraries for and runs the Python script in a virtual environment. Docker sets up another virtual environment within which it installs Python, Tesseract, and Poppler and calls the Bash script. The GitHub Actions workflow starts the Docker container in yet a third virtual layer, making use of the cloud.
 
 You choose how much you want to automate and virtualize.
 
@@ -17,7 +15,7 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 If you want to avoid typing any commands or installing anything on your computer, then...
 
 1. Open [ocr-pdf.ipynb](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry?usp=sharing) in your browser
-2. Click `Runtime > Run all`
+2. Click `Runtime > Run all` and follow the instructions
 3. Find the OCR'd PDFs in your Google Drive at `ocr-pdf/pdf/done`
 
 ### Docker Image
@@ -36,11 +34,11 @@ services:
       - ./pdf/done:/pdf/done
 ```
 
-3. Run `docker compose up`
+1. Run `docker compose up` to OCR the PDFs and move them into `./pdf/done`
 
 ## Quick Start
 
-It's as easy as 1, 2, 3, 4, 5! Once you complete the following steps, you'll find the OCR'd PDFs in a `pdf/done` folder.
+It's as easy as 1, 2, 3, 4, 5! Once you complete the following steps, you'll find the OCR'd PDFs in `pdf/done`.
 
 1. First (fork and) clone this repo
 2. `cd` into it and put your PDFs in `pdf/todo`
