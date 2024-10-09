@@ -34,7 +34,7 @@ services:
       - ./pdf/done:/app/done
 ```
 
-1. Run `docker compose up` to OCR the PDFs and move them into `./pdf/done`
+3. Run `docker compose up` to OCR the PDFs and move them into `./pdf/done`
 
 ## Quick Start
 
