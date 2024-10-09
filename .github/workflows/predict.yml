@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run inference
-        uses: hoverkraft-tech/compose-action
+        uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: "./compose.yml"
 
