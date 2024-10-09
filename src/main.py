@@ -36,11 +36,13 @@ def process_pdfs(base: Path = Path(".")):
             doc.insert_pdf(fitz.open("pdf", prediction))
             gc.collect()
 
-        # Save the OCR results to a new PDF file
-        doc.save(output_file, garbage=4, deflate=True)
-        doc.close()
-        input_file.unlink()
-        print(f"Processed {relative_path}")
+        try:
+            input_file.unlink()
+        finally:
+            # Save the OCR results to a new PDF file
+            doc.save(output_file, garbage=4, deflate=True)
+            doc.close()
+            print(f"Processed {relative_path}")
 
     Parallel(n_jobs=-1)(
         delayed(predict)(Path(root) / file, Path(root.replace("todo", "done")) / file)
