@@ -16,8 +16,8 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 
 If you want to avoid typing any commands or installing anything on your computer, then...
 
-1. Open the [ocr-pdf.ipynb](https://colab.research.google.com/github/leogodin217/ocr-pdf/blob/main/src/predict.ipynb) notebook in your browser
-2. Click the play button
+1. Open [ocr-pdf.ipynb](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry?usp=sharing) in your browser
+2. Click `Runtime > Run all`
 3. Find the OCR'd PDFs in your Google Drive at `ocr-pdf/pdf/done`
 
 ### Docker Image
