@@ -44,6 +44,7 @@ def process_pdfs(base: Path = Path(".")):
         # Save the OCR results to a new PDF file
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
+        gc.collect()
         print(f"Processed {relative_path}")
 
     Parallel(n_jobs=-1)(

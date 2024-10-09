@@ -35,12 +35,6 @@ jobs:
         run: |
           docker exec -it ocr-pdf bash predict.sh
 
-      - name: Sync local
-        run: |
-          git pull --rebase --autostash
-          git merge --abort 2>/dev/null
-          git pull --rebase --autostash -s ours &>/dev/null
-
       - name: Save predictions
         id: commit
         uses: EndBug/add-and-commit@v9
