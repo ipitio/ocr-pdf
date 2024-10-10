@@ -2,7 +2,7 @@
 # shellcheck disable=SC1091
 
 set -Eeuo pipefail
-declare -r pdf_dir="${1:-/app/pdf}"
+declare -r pdf_dir="${1:-.}"
 export OMP_THREAD_LIMIT=1
 python3 -m venv venv
 
@@ -13,7 +13,7 @@ if [[ -f venv/bin/pip3 ]]; then
     ./venv/bin/python3 ./main.py "$pdf_dir"
 
     deactivate
-    [[ "$pdf_dir" == "/app/pdf" ]] || rm -rf venv
+    [[ "$pdf_dir" == "." ]] || rm -rf venv
 elif [[ -f /.dockerenv ]]; then
     export PATH="$PATH:/root/.local/bin"
     pip3 install -r requirements.txt --user --break-system-packages

@@ -3,4 +3,5 @@ services:
         container_name: ocr-pdf
         image: ghcr.io/ipitio/ocr-pdf:latest
         volumes:
-            - ./pdf:/app/pdf
+            - ./pdf/todo:/app/todo
+            - ./pdf/done:/app/done

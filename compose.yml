@@ -3,4 +3,5 @@ services:
         container_name: ocr-pdf
         build: ./src
         volumes:
-            - ./pdf:/app/pdf
+            - ./pdf/todo:/app/todo
+            - ./pdf/done:/app/done
