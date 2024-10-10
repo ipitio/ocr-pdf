@@ -2,7 +2,7 @@
 # shellcheck disable=SC1091
 
 set -Eeuo pipefail
-declare -r pdf_dir="${1:-pdf}"
+declare -r pdf_dir="${1:-./pdf}"
 export OMP_THREAD_LIMIT=1
 python3 -m venv venv
 
