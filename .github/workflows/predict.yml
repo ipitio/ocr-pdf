@@ -26,13 +26,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Start container
+      - name: Run inference
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: "./compose-prod.yml"
-
-      - name: Run inference
-        run: docker exec -it ocr-pdf bash predict.sh
 
       - name: Save predictions
         id: commit

@@ -14,5 +14,3 @@ COPY requirements.txt /app/requirements.txt
 WORKDIR /app
 # copy the source code
 COPY . /app
-# run the program
-CMD ["bash", "predict.sh"]

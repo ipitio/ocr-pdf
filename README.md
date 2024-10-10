@@ -39,8 +39,10 @@ If you want to avoid cloning the repo and building the image, then...
 
 ```yaml
 services:
-  ocr-pdf:
+  predict:
+    container_name: ocr-pdf
     image: ghcr.io/ipitio/ocr-pdf
+    command: bash predict.sh
     volumes:
       - ./pdf/todo:/app/todo
       - ./pdf/done:/app/done
