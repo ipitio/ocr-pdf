@@ -28,27 +28,15 @@ If you want to avoid typing any commands or installing anything on your computer
 
 1. Open [ocr-pdf.ipynb](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry) in your browser
 2. Click `Runtime > Run all` and follow the instructions
-3. Find the OCR'd PDFs in your Google Drive at `ocr-pdf/pdf/done`
+3. Find the OCR'd PDFs in your [Google Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
 ### Docker Image
 
 If you want to avoid cloning the repo and building the image, then...
 
 1. Install Docker and Compose, such as with Docker Desktop
-2. Create a `./pdf/todo` folder and the `./compose.yml` file with the following content:
-
-```yaml
-services:
-  predict:
-    container_name: ocr-pdf
-    image: ghcr.io/ipitio/ocr-pdf
-    command: bash predict.sh
-    volumes:
-      - ./pdf/todo:/app/todo
-      - ./pdf/done:/app/done
-```
-
-3. Run `docker compose up` to OCR the PDFs and move them into `./pdf/done`
+2. Create a `[new-dir]/pdf/todo` folder and copy the contents of `compose-prod.yml` to `[new-dir]/compose.yml`
+3. Run `docker compose up` inside the new folder to OCR the PDFs and move them into `[new-dir]/pdf/done`
 
 ## Quick Start
 
