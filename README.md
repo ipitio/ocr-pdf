@@ -71,6 +71,6 @@ If you cloned a fork and want to avoid downloading or installing anything else, 
 git add -- *.pdf
 git commit -m "Add PDFs"
 git push
-# wait for the magic to happen
+# wait for the magic to happen (if the job fails, rerun it)
 git pull
 ```
