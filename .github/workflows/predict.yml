@@ -29,11 +29,10 @@ jobs:
       - name: Start container
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
-          compose-file: "./compose.yml"
+          compose-file: "./compose-prod.yml"
 
       - name: Run inference
-        run: |
-          docker exec -it ocr-pdf bash predict.sh
+        run: docker exec -it ocr-pdf bash predict.sh
 
       - name: Save predictions
         id: commit

@@ -14,7 +14,7 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 
 If you want to avoid typing any commands or installing anything on your computer, then...
 
-1. Open [ocr-pdf.ipynb](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry?usp=sharing) in your browser
+1. Open [ocr-pdf.ipynb](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry) in your browser
 2. Click `Runtime > Run all` and follow the instructions
 3. Find the OCR'd PDFs in your Google Drive at `ocr-pdf/pdf/done`
 
@@ -30,8 +30,7 @@ services:
   ocr-pdf:
     image: ghcr.io/ipitio/ocr-pdf
     volumes:
-      - ./pdf/todo:/app/todo
-      - ./pdf/done:/app/done
+      - ./pdf:/app/pdf
 ```
 
 3. Run `docker compose up` to OCR the PDFs and move them into `./pdf/done`
