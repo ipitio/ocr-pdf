@@ -70,6 +70,6 @@ If you made a fork and cloned it, Git is your best friend!
 git add **/*.pdf
 git commit -m "Add PDFs"
 git push
-# wait for the magic to happen (if the job fails, rerun it)
+# wait for the magic to happen
 git pull
 ```

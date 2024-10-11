@@ -2,12 +2,13 @@
 This script OCRs PDFs
 """
 
-import gc
 import os
+import resource
 import sys
 from pathlib import Path
 
 import fitz  # PyMuPDF
+import psutil
 import pytesseract
 from joblib import Parallel, delayed
 from pdf2image import convert_from_path
@@ -64,4 +65,12 @@ def process_pdfs(base: Path = Path(".")):
 
 
 if __name__ == "__main__":
+    # Calculate the maximum memory limit (80% of available memory)
+    virtual_memory = psutil.virtual_memory()
+    available_memory = virtual_memory.available
+    memory_limit = int(available_memory * 0.8)
+
+    # Set the memory limit
+    resource.setrlimit(resource.RLIMIT_AS, (memory_limit, memory_limit))
+
     process_pdfs(Path(sys.argv[1]))
