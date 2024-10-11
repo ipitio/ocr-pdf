@@ -5,10 +5,9 @@ set -Eeuo pipefail
 declare -r pdf_dir="${1:-.}"
 export OMP_THREAD_LIMIT=1
 
-apt-get update
-
 # wait up to 5 minutes for the lock file to be released
 for _ in {1..300}; do
+    apt-get update || { sleep 1 && continue; }
     apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils && break || sleep 1
 done
 
