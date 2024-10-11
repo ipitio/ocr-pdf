@@ -50,22 +50,22 @@ It's as easy as 1, 2, 3, 4, 5! Once you complete the following steps, you'll fin
 
 Are you on Linux and want to set up everything yourself?
 
-1. Install Python 3, Tesseract, and Poppler
-2. Run `bash src/predict.sh pdf`
+4. Install Python 3, Tesseract, and Poppler
+5. Run `bash src/predict.sh pdf`
 
 ### Docker Build
 
 If you aren't on Linux, or want to avoid polluting your system:
 
-1. Install Docker and Compose, such as with Docker Desktop
-2. Run `docker compose up`
+4. Install Docker and Compose, such as with Docker Desktop
+5. Run `docker compose up`
 
 ### GitHub Actions
 
 If you forked and cloned your fork, I suggest you:
 
-1. Push the bad PDFs to GitHub
-2. Pull the good ones from it
+4. Push the bad PDFs to GitHub
+5. Pull the good ones from it
 
 ```bash
 git add -- *.pdf
