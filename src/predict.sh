@@ -12,7 +12,6 @@ for _ in {1..300}; do
     apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils && break || sleep 1
 done
 
-apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils
 python3 -m venv venv
 
 if [[ -f venv/bin/pip3 ]]; then
