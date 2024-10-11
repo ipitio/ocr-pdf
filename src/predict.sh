@@ -3,7 +3,7 @@
 
 set -Eeuo pipefail
 declare -r pdf_dir="${1:-.}"
-#export OMP_THREAD_LIMIT=1
+export OMP_THREAD_LIMIT=1
 
 apt-get update
 
