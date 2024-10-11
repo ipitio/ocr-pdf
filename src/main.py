@@ -2,6 +2,7 @@
 This script OCRs PDFs
 """
 
+import gc
 import os
 import sys
 from pathlib import Path
@@ -28,6 +29,7 @@ def process_pdfs(base: Path = Path(".")):
 
         # Perform OCR on the images
         doc = fitz.open()
+
         for image in convert_from_path(input_file, dpi=300, fmt="jpeg"):
             doc.insert_pdf(
                 fitz.open(
@@ -35,6 +37,8 @@ def process_pdfs(base: Path = Path(".")):
                 )
             )
             del image
+            gc.collect()
+
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
 
