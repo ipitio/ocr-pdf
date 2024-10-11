@@ -5,6 +5,8 @@ set -Eeuo pipefail
 declare -r pdf_dir="${1:-.}"
 #export OMP_THREAD_LIMIT=1
 
+apt-get update
+timeout 300 sh -c 'until fuser /var/lib/dpkg/lock-frontend -s; do sleep 1; done'
 apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils
 python3 -m venv venv
 
