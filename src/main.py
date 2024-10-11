@@ -25,28 +25,26 @@ def process_pdfs(base: Path = Path(".")):
 
     def predict(input_file: Path, output_file: Path):
         relative_path = input_file.relative_to(base / "todo")
-        images = convert_from_path(input_file, dpi=300, fmt="jpeg")
+        print(f"Processing {relative_path}...")
+
+        # Perform OCR on the images
+        doc = fitz.open()
+        [
+            doc.insert_pdf(
+                fitz.open(
+                    "pdf", pytesseract.image_to_pdf_or_hocr(image, extension="pdf")
+                )
+            )
+            for image in convert_from_path(input_file, dpi=300, fmt="jpeg")
+        ]
+        doc.save(output_file, garbage=4, deflate=True)
+        doc.close()
 
         try:
             input_file.unlink()
         except:
             pass
 
-        print(f"Processing {relative_path}...")
-
-        # Create a PDF file to store the OCR results
-        doc = fitz.open()
-
-        # Perform OCR on the images
-        for image in images:
-            prediction = pytesseract.image_to_pdf_or_hocr(image, extension="pdf")
-            doc.insert_pdf(fitz.open("pdf", prediction))
-            gc.collect()
-
-        # Save the OCR results to a new PDF file
-        doc.save(output_file, garbage=4, deflate=True)
-        doc.close()
-        gc.collect()
         print(f"Processed {relative_path}")
 
     Parallel(n_jobs=-1)(
