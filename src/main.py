@@ -33,8 +33,10 @@ def process_pdfs(base: Path = Path(".")):
         for image in convert_from_path(input_file, fmt="jpeg"):
             pdf_bytes = pytesseract.image_to_pdf_or_hocr(image)
             del image
+            gc.collect()
             page = pymupdf.open("pdf", pdf_bytes)
             del pdf_bytes
+            gc.collect()
             doc.insert_pdf(page)
             page.close()
             del page
