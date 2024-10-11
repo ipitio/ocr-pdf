@@ -7,8 +7,9 @@ import os
 import sys
 from pathlib import Path
 
-import fitz  # PyMuPDF
+import pymupdf
 import pytesseract
+from joblib import Parallel, delayed
 from pdf2image import convert_from_path
 
 
@@ -27,15 +28,14 @@ def process_pdfs(base: Path = Path(".")):
         print(f"Processing {relative_path}...")
 
         # Perform OCR on the images
-        doc = fitz.open()
+        doc = pymupdf.open()
 
         for image in convert_from_path(input_file, fmt="jpeg"):
-            doc.insert_pdf(
-                fitz.open(
-                    "pdf", pytesseract.image_to_pdf_or_hocr(image)
-                )
-            )
+            page = pymupdf.open("pdf", pytesseract.image_to_pdf_or_hocr(image))
             del image
+            doc.insert_pdf(page)
+            page.close()
+            del page
             gc.collect()
 
         print(f"Saving {relative_path}...")
@@ -50,12 +50,12 @@ def process_pdfs(base: Path = Path(".")):
 
         print(f"Processed {relative_path}")
 
-    for root, _, files in os.walk(base / "todo"):
-        for file in files:
-            if file.lower().endswith(".pdf"):
-                input_file = Path(root) / file
-                output_file = Path(root.replace("todo", "done")) / file
-                predict(input_file, output_file)
+    Parallel(n_jobs=-1)(
+        delayed(predict)(Path(root) / file, Path(root.replace("todo", "done")) / file)
+        for root, _, files in os.walk(base / "todo")
+        for file in files
+        if file.lower().endswith(".pdf")
+    )
 
 
 if __name__ == "__main__":
