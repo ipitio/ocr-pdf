@@ -12,11 +12,11 @@
 
 </div>
 
-Make your unsearchable PDFs searchable with the help of automation, virtualization, and a pretrained deep learning model!
+Make your unsearchable PDFs searchable with the help of a pretrained neural net!
 
-The core logic resides in a Python script that gets all the PDFs in `todo`, converts their pages to OCR'd images with Google's LSTM-based OCR engine Tesseract, and combines these into new PDFs in `done`. The Bash script installs the necessary libraries for and runs the Python script in a virtual environment. Docker sets up another virtual environment within which it installs Python, Tesseract, and Poppler and calls the Bash script. The GitHub Actions workflow starts the Docker container in yet a third virtual layer, making use of the cloud.
+The core logic resides in a Python script that extracts all the PDFs from `todo`, transforms their pages with Google's LSTM-based OCR engine Tesseract, and loads them into `done`. The Bash script installs the dependencies for and runs the Python script in a virtual environment. Docker sets up another virtual environment within which it installs the dependencies for and runs the Bash script. The GitHub Actions workflow uses a third virtual layer in the cloud within which it starts the Docker container.
 
-You choose how much of the ETL pipeline you want to automate and virtualize.
+You choose how much you want to automate and virtualize.
 
 ## Fast Start
 
@@ -32,7 +32,7 @@ Are you on mobile or simply want an easy and seamless experience?
 
 ### Docker Image
 
-If you want to avoid cloning the repo and building an image, just use mine:
+If you want to skip building an image, just use mine:
 
 1. Install Docker and Compose, such as with Docker Desktop
 2. In a new folder, copy the contents of `compose-prod.yml` to `compose.yml` and put your PDFs in `pdf/todo`
@@ -40,35 +40,34 @@ If you want to avoid cloning the repo and building an image, just use mine:
 
 ## Quick Start
 
-It's as easy as 1, 2, 3, 4, 5! Once you complete the following steps, you'll find the OCR'd PDFs in `pdf/done`.
+It's as still easy as 1, 2, 3! You'll find the OCR'd PDFs in `pdf/done`.
 
 1. First (fork and) clone this repo
 2. `cd` into it and put your PDFs in `pdf/todo`
-3. Choose one of the following options:
+3. Complete one of the following:
 
 ### Bare Metal
 
-Are you on Linux and want to set up everything yourself?
+Are you on Linux and want to make the most out of it?
 
-4. Install Python 3, Tesseract, and Poppler
-5. Run `bash src/predict.sh pdf`
+```bash
+bash src/predict.sh pdf
+```
 
 ### Docker Build
 
-If you aren't on Linux, or want to avoid polluting your system:
+If you aren't on Linux, or want to avoid polluting your system, use Docker Compose:
 
-4. Install Docker and Compose, such as with Docker Desktop
-5. Run `docker compose up`
+```bash
+docker compose up
+```
 
 ### GitHub Actions
 
-If you forked and cloned your fork, I suggest you:
-
-4. Push the bad PDFs to GitHub
-5. Pull the good ones from it
+If you made a fork and cloned it, Git is your best friend!
 
 ```bash
-git add -- *.pdf
+git add **/*.pdf
 git commit -m "Add PDFs"
 git push
 # wait for the magic to happen (if the job fails, rerun it)
