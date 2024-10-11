@@ -30,7 +30,7 @@ def process_pdfs(base: Path = Path(".")):
         # Perform OCR on the images
         doc = fitz.open()
 
-        for image in convert_from_path(input_file, dpi=150, fmt="jpeg"):
+        for image in convert_from_path(input_file, fmt="jpeg"):
             doc.insert_pdf(
                 fitz.open(
                     "pdf", pytesseract.image_to_pdf_or_hocr(image, extension="pdf")
@@ -38,6 +38,8 @@ def process_pdfs(base: Path = Path(".")):
             )
             del image
             gc.collect()
+
+        print(f"Saving {relative_path}")
 
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
