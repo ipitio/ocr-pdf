@@ -1,7 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC1091,SC2015
 
-set -Eeuo pipefail
 declare -r pdf_dir="${1:-.}"
 export OMP_THREAD_LIMIT=1
 
