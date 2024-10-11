@@ -9,7 +9,6 @@ from pathlib import Path
 
 import fitz  # PyMuPDF
 import pytesseract
-from joblib import Parallel, delayed
 from pdf2image import convert_from_path
 
 
@@ -33,13 +32,13 @@ def process_pdfs(base: Path = Path(".")):
         for image in convert_from_path(input_file, fmt="jpeg"):
             doc.insert_pdf(
                 fitz.open(
-                    "pdf", pytesseract.image_to_pdf_or_hocr(image, extension="pdf")
+                    "pdf", pytesseract.image_to_pdf_or_hocr(image)
                 )
             )
             del image
             gc.collect()
 
-        print(f"Saving {relative_path}")
+        print(f"Saving {relative_path}...")
 
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
@@ -51,20 +50,12 @@ def process_pdfs(base: Path = Path(".")):
 
         print(f"Processed {relative_path}")
 
-    Parallel(n_jobs=-1)(
-        delayed(predict)(Path(root) / file, Path(root.replace("todo", "done")) / file)
-        for root, _, files in os.walk(base / "todo")
-        for file in files
-        if file.lower().endswith(".pdf")
-    )
-
-    # sequential:
-    # for root, _, files in os.walk(base / "todo"):
-    #    for file in files:
-    #        if file.lower().endswith(".pdf"):
-    #            input_file = Path(root) / file
-    #            output_file = Path(root.replace("todo", "done")) / file
-    #            predict(input_file, output_file)
+    for root, _, files in os.walk(base / "todo"):
+        for file in files:
+            if file.lower().endswith(".pdf"):
+                input_file = Path(root) / file
+                output_file = Path(root.replace("todo", "done")) / file
+                predict(input_file, output_file)
 
 
 if __name__ == "__main__":
