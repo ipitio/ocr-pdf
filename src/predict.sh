@@ -10,7 +10,7 @@ python3 -m venv venv
 
 if [[ -f venv/bin/pip3 ]]; then
     source venv/bin/activate
-    ./venv/bin/pip3 install --no-cache-dir -r requirements.txt
+    find . -name requirements.txt -exec ./venv/bin/pip3 install --no-cache-dir -r {} \;
     ./venv/bin/python3 ./main.py "$pdf_dir"
     deactivate
 elif [[ -f /.dockerenv ]]; then
