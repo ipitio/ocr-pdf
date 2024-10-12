@@ -22,7 +22,7 @@ You choose how much you want to automate and virtualize.
 
 It's as easy as 1, 2, 3! Get up and going in no time with these options:
 
-### Google Colab
+### Cloud: Google Colab Notebook
 
 Are you on mobile or simply want an easy and seamless experience?
 
@@ -30,7 +30,7 @@ Are you on mobile or simply want an easy and seamless experience?
 2. Run the cell
 3. Find the OCR'd PDFs in your [Google Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
-### Docker Image
+### Self-hosted: Prebuilt Docker Image
 
 If you want to skip building an image, just use mine:
 
@@ -62,23 +62,7 @@ It's as still easy as 1, 2, 3! You'll find the OCR'd PDFs in `pdf/done`.
 2. `cd` into it and put your PDFs in `pdf/todo`
 3. Complete one of the following:
 
-### Bare Metal
-
-Are you on Linux and want to make the most out of it?
-
-```bash
-bash src/predict.sh pdf
-```
-
-### Docker Build
-
-If you aren't on Linux, or want to avoid polluting your system, use Docker Compose:
-
-```bash
-docker compose up
-```
-
-### GitHub Actions
+### Cloud: GitHub Actions Workflow
 
 If you made a fork and cloned it, Git is your best friend!
 
@@ -88,4 +72,22 @@ git commit -m "Add PDFs"
 git push
 # wait for the magic to happen
 git pull
+```
+
+### Self-hosted
+
+#### Build Docker Image
+
+If you aren't on Linux, or want to avoid polluting your system, use Docker Compose:
+
+```bash
+docker compose up
+```
+
+#### Use Bare Metal
+
+Are you on Linux and want to make the most out of it?
+
+```bash
+bash src/predict.sh pdf
 ```
