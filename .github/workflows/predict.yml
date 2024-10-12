@@ -24,11 +24,14 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Run inference
-        run: bash src/predict.sh pdf
+        run: |
+          apt-get install -y git
+          git clone --depth=1 https://github.com/$GITHUB_REPOSITORY.git
+          cd ocr-pdf
+          bash src/predict.sh pdf
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Save predictions
         id: commit
