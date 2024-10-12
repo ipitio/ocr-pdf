@@ -1,5 +1,5 @@
 """
-This script OCRs PDFs
+This script OCRs files
 """
 
 import os
@@ -9,6 +9,7 @@ from pathlib import Path
 import pymupdf
 import pytesseract
 from joblib import Parallel, delayed
+from natsort import natsorted, ns
 from pdf2image import convert_from_path
 from PIL import Image
 
@@ -22,7 +23,7 @@ def predict(base: Path, input_file: Path) -> None:
         input_file (Path): The input file
     """
     relative_path = input_file.relative_to(base / "todo")
-    output_file = base / "done" / relative_path
+    output_file = base / "done" / relative_path.with_suffix(".pdf")
 
     if str(input_file).lower().endswith(".pdf"):
         pages = convert_from_path(input_file, fmt="jpeg")
@@ -53,7 +54,7 @@ def predict(base: Path, input_file: Path) -> None:
 
 
 if __name__ == "__main__":
-    pdfs = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(".")
+    pdfs = Path(sys.argv[1] if len(sys.argv) > 1 else ".")
     pdfs.mkdir(exist_ok=True, parents=True)
     (pdfs / "todo").mkdir(exist_ok=True, parents=True)
     (pdfs / "done").mkdir(exist_ok=True, parents=True)
@@ -64,21 +65,34 @@ if __name__ == "__main__":
         for file in files
     )
 
+    # Remove empty directories
+    for root, _, files in os.walk(pdfs / "todo"):
+        if not files:
+            try:
+                os.rmdir(root)
+            except Exception:
+                pass
+
     # Merge PDFs
     for root, _, files in os.walk(pdfs / "done"):
-        if root == pdfs / "done":
+        proot = Path(root)
+        if proot == pdfs / "done":
             continue
 
-        pdf_list = [pymupdf.open(file) for file in files if file.lower().endswith(".pdf")]
+        pdf_list = [
+            pymupdf.open(proot / file)
+            for file in files
+            if file.lower().endswith(".pdf")
+        ]
         if not pdf_list:
             continue
 
-        doc = pymupdf.open()
-        for pdf in pdf_list:
-            doc.insert_pdf(pdf)
+        merged = pymupdf.open()
+        for pdf in natsorted(pdf_list, alg=ns.IGNORECASE):
+            merged.insert_pdf(pdf)
 
-        doc.save(root + ".pdf", garbage=4, deflate=True)
-        doc.close()
+        merged.save(Path(root + ".pdf"), garbage=4, deflate=True)
+        merged.close()
 
         for pdf in pdf_list:
             pdf.close()

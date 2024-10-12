@@ -1,8 +1,15 @@
 #!/bin/bash
 # shellcheck disable=SC1091,SC2015
 
-apt-get update
-apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils git
+apt_install() {
+    apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils git
+}
+
+if ! apt_install 2>/dev/null; then
+    apt-get update
+    apt_install
+fi
+
 [ -d venv ] || python3 -m venv venv
 export OMP_THREAD_LIMIT=1
 
