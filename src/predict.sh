@@ -12,7 +12,7 @@ if [[ -f venv/bin/pip3 ]]; then
     [ -z "$1" ] || find . -name main.py -exec ./venv/bin/python3 {} "$1" \;
     deactivate
 elif [[ -f /.dockerenv ]]; then
-    export PATH="$PATH:/root/.local/bin"
+    [[ ":$PATH:" == *":/root/.local/bin:"* ]] || export PATH=$PATH:/root/.local/bin
     pip3 install -r requirements.txt --user --break-system-packages
     [ -z "$1" ] || python3 ./main.py "$1"
 fi
