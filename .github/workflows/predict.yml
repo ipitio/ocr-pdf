@@ -18,6 +18,7 @@ defaults:
 jobs:
   inference:
     runs-on: ubuntu-22.04
+    container: ghcr.io/ipitio/ocr-pdf:latest
 
     permissions:
       contents: write
@@ -26,13 +27,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Start container
-        uses: hoverkraft-tech/compose-action@v2.0.2
-        with:
-          compose-file: "./compose-prod.yml"
-
       - name: Run inference
-        run: docker exec -it ocr-pdf bash predict.sh .
+        run: bash predict.sh pdf
 
       - name: Save predictions
         id: commit
