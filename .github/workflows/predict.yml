@@ -31,9 +31,6 @@ jobs:
         with:
           compose-file: "./compose-prod.yml"
 
-      - name: Run inference
-        run: docker exec -it ocr-pdf bash predict.sh .
-
       - name: Save predictions
         id: commit
         uses: EndBug/add-and-commit@v9
