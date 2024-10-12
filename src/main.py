@@ -31,8 +31,6 @@ def process_pdfs(base: Path = Path(".")):
 
         try:
             input_file.unlink()
-            del input_file
-            gc.collect()
         except:
             pass
 
