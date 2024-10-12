@@ -10,17 +10,18 @@ for _ in {1..300}; do
     apt-get install -y python3 python3-pip python3-venv tesseract-ocr poppler-utils && break || sleep 1
 done
 
-[ -n "$1" ] || exit
-export OMP_THREAD_LIMIT=1
-python3 -m venv venv
+if [ -n "$1" ]; then
+    export OMP_THREAD_LIMIT=1
+    python3 -m venv venv
 
-if [[ -f venv/bin/pip3 ]]; then
-    source venv/bin/activate
-    find . -name requirements.txt -exec ./venv/bin/pip3 install --no-cache-dir -r {} \;
-    ./venv/bin/python3 ./main.py "$1"
-    deactivate
-elif [[ -f /.dockerenv ]]; then
-    export PATH="$PATH:/root/.local/bin"
-    pip3 install -r requirements.txt --user --break-system-packages
-    python3 ./main.py "$1"
+    if [[ -f venv/bin/pip3 ]]; then
+        source venv/bin/activate
+        find . -name requirements.txt -exec ./venv/bin/pip3 install --no-cache-dir -r {} \;
+        ./venv/bin/python3 ./main.py "$1"
+        deactivate
+    elif [[ -f /.dockerenv ]]; then
+        export PATH="$PATH:/root/.local/bin"
+        pip3 install -r requirements.txt --user --break-system-packages
+        python3 ./main.py "$1"
+    fi
 fi

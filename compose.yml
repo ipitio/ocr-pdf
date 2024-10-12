@@ -2,7 +2,7 @@ services:
     predict:
         container_name: ocr-pdf
         build: ./src
-        command: bash predict.sh
+        command: bash predict.sh .
         volumes:
             - ./pdf/todo:/app/todo
             - ./pdf/done:/app/done
