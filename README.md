@@ -14,7 +14,7 @@
 
 Make your unsearchable PDFs searchable with the help of a pretrained neural net!
 
-The core logic resides in a Python script that extracts all the PDFs from `todo`, transforms their pages with Google's LSTM-based OCR engine Tesseract, and loads them into `done`. The Bash script installs the dependencies for and runs the Python script in a virtual environment. Docker sets up another virtual environment within which it installs the dependencies for and runs the Bash script. The GitHub Actions workflow uses a third virtual layer in the cloud within which it starts the Docker container.
+The core logic resides in a Python script that extracts all the PDFs from `todo`, transforms their pages with Google's LSTM-based OCR engine Tesseract, and loads them into `done`. The Bash script installs the dependencies for and runs the Python script in a virtual environment. Docker sets up another virtual environment within which it installs the dependencies for and runs the Bash script. Google Colab and GitHub Actions both use a third virtual layer in the cloud within which they run the Docker container.
 
 You choose how much you want to automate and virtualize.
 
