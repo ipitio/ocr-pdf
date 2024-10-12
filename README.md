@@ -1,6 +1,6 @@
 <div align="center">
 
-[![logo](assets/wide.webp)](https://github.com/ipitio/ocr-pdf)
+[![logo](public/wide.webp)](https://github.com/ipitio/ocr-pdf)
 
 # ocr2pdf
 
