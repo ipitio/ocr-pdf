@@ -4,7 +4,7 @@
 
 # OCR PDF
 
-**To find or not to find, that is the question**
+**Convert images or scans to searchable PDFs!**
 
 ---
 
@@ -12,11 +12,15 @@
 
 </div>
 
-Make your unsearchable PDFs searchable with the help of a pretrained neural net!
+You can run this in your browser, on your computer, or somewhere in between, depending how much you want to automate and virtualize. The core logic resides in a Python script that you could run yourself, if you really wanted to. It extracts all the files from `todo`, transforms their pages with a pretrained LSTM RNN, and loads them into `done`. Files in subfolders will have a merged copy available!
 
-The core logic resides in a Python script that extracts all the PDFs from `todo`, transforms their pages with Google's LSTM-based OCR engine Tesseract, and loads them into `done`. The Bash script installs the dependencies for and runs the Python script in a virtual environment. Docker sets up another virtual environment within which it installs the dependencies for and runs the Bash script. Google Colab and GitHub Actions both use a third virtual layer in the cloud within which they run the Docker container.
+I recommend you use either:
 
-You choose how much you want to automate and virtualize.
+- The Bash script, which runs the Python script
+- The Docker image, which runs the Bash script
+- A Google Colab or GitHub Actions server, both of which run the Docker container
+
+Read on to find out which is best for you!
 
 ## Fast Start
 
@@ -35,8 +39,8 @@ Are you on mobile or simply want an easy and seamless experience?
 If you want to skip building an image, just use mine:
 
 1. Install Docker and Compose, such as with Docker Desktop
-2. Create a new folder with the file below and put your PDFs in `pdf/todo`
-3. Run the following command to OCR the PDFs and move them to `pdf/done`
+2. Enter a new folder, add the file below, and put your PDFs in `./pdf/todo`
+3. Run the following command to OCR the PDFs and move them to `./pdf/done`
 
 ```yaml
 # compose.yml
