@@ -27,7 +27,7 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 Are you on mobile or simply want an easy and seamless experience?
 
 1. Open [the app](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry) in your browser
-2. Follow the instructions
+2. Run the cell
 3. Find the OCR'd PDFs in your [Google Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
 ### Docker Image
@@ -35,9 +35,11 @@ Are you on mobile or simply want an easy and seamless experience?
 If you want to skip building an image, just use mine:
 
 1. Install Docker and Compose, such as with Docker Desktop
-2. In a new folder, put your PDFs in `pdf/todo` and copy the following `compose.yml`:
+2. Create a new folder with the file below and put your PDFs in `pdf/todo`
+3. Run the following command to OCR the PDFs and move them to `pdf/done`
 
 ```yaml
+# compose.yml
 services:
     predict:
         container_name: ocr-pdf
@@ -48,7 +50,9 @@ services:
             - ./pdf/done:/app/done
 ```
 
-3. Run `docker compose up` inside that folder to OCR the PDFs and move them into `pdf/done`
+```bash
+docker compose up
+```
 
 ## Quick Start
 
