@@ -28,7 +28,7 @@ jobs:
         run: |
           apt-get install -y git
           git clone --depth=1 https://github.com/$GITHUB_REPOSITORY.git
-          cd ocr-pdf
+          cd $(basename $GITHUB_REPOSITORY)
           bash src/predict.sh pdf
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
