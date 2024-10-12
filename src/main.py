@@ -10,7 +10,6 @@ import pymupdf
 import pytesseract
 from joblib import Parallel, delayed
 from pdf2image import convert_from_path
-from tqdm import tqdm
 
 
 def process_pdfs(base: Path = Path(".")):
@@ -35,7 +34,10 @@ def process_pdfs(base: Path = Path(".")):
 
         # Perform OCR on the images
         doc = pymupdf.open()
-        [doc.insert_pdf(pymupdf.open("pdf", pytesseract.image_to_pdf_or_hocr(page))) for page in tqdm(pages)]
+        [
+            doc.insert_pdf(pymupdf.open("pdf", pytesseract.image_to_pdf_or_hocr(page)))
+            for page in pages
+        ]
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
         print(f"Processed {relative_path}")
