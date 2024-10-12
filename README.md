@@ -27,7 +27,7 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 Are you on mobile or simply want an easy and seamless experience?
 
 1. Open [the app](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry) in your browser
-2. Select `Runtime > Run all` and follow the instructions
+2. Follow the instructions
 3. Find the OCR'd PDFs in your [Google Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
 ### Docker Image
