@@ -32,21 +32,13 @@ def process_pdfs(base: Path = Path(".")):
         try:
             input_file.unlink()
             del input_file
+            gc.collect()
         except:
             pass
 
         # Perform OCR on the images
         doc = pymupdf.open()
-
-        for page in tqdm(pages):
-            page = pymupdf.open("pdf", pytesseract.image_to_pdf_or_hocr(page))
-            doc.insert_pdf(page)
-            page.close()
-            del page
-            gc.collect()
-
-        print(f"Saving {relative_path}...")
-
+        [doc.insert_pdf(pymupdf.open("pdf", pytesseract.image_to_pdf_or_hocr(page))) for page in tqdm(pages)]
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
         print(f"Processed {relative_path}")
