@@ -26,17 +26,20 @@ def process_pdfs(base: Path = Path(".")):
     def predict(input_file: Path, output_file: Path):
         relative_path = input_file.relative_to(base / "todo")
         print(f"Processing {relative_path}...")
+        pages = convert_from_path(input_file, fmt="jpeg")
+
+        try:
+            input_file.unlink()
+            del input_file
+        except:
+            pass
 
         # Perform OCR on the images
         doc = pymupdf.open()
 
-        for image in convert_from_path(input_file, fmt="jpeg"):
-            pdf_bytes = pytesseract.image_to_pdf_or_hocr(image)
-            del image
-            gc.collect()
-            page = pymupdf.open("pdf", pdf_bytes)
-            del pdf_bytes
-            gc.collect()
+        for page in pages:
+            page = pytesseract.image_to_pdf_or_hocr(page)
+            page = pymupdf.open("pdf", page)
             doc.insert_pdf(page)
             page.close()
             del page
@@ -46,12 +49,6 @@ def process_pdfs(base: Path = Path(".")):
 
         doc.save(output_file, garbage=4, deflate=True)
         doc.close()
-
-        try:
-            input_file.unlink()
-        except:
-            pass
-
         print(f"Processed {relative_path}")
 
     Parallel(n_jobs=-1)(
