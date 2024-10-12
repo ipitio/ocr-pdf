@@ -31,7 +31,7 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 Are you on mobile or simply want an easy and seamless experience?
 
 1. Open [the app](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry) in your browser
-2. Run the cell
+2. Run the cell to convert your files and/or zipped folders
 3. Find the OCR'd files in your [Google Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
 ### Self-hosted: Prebuilt Docker Image
@@ -59,7 +59,7 @@ docker compose up
 
 ## Quick Start
 
-It's as still easy as 1, 2, 3! You'll find the OCR'd files in `pdf/done`.
+It's still easy as 1, 2, 3! You'll find the OCR'd files in `pdf/done`.
 
 1. First (fork and) clone this repo
 2. `cd` into it and put your files in `pdf/todo`
