@@ -35,7 +35,19 @@ Are you on mobile or simply want an easy and seamless experience?
 If you want to skip building an image, just use mine:
 
 1. Install Docker and Compose, such as with Docker Desktop
-2. In a new folder, copy the contents of `compose-prod.yml` to `compose.yml` and put your PDFs in `pdf/todo`
+2. In a new folder, put your PDFs in `pdf/todo` and copy the following `compose.yml`:
+
+```yaml
+services:
+    predict:
+        container_name: ocr-pdf
+        image: ghcr.io/ipitio/ocr-pdf:latest
+        command: bash predict.sh .
+        volumes:
+            - ./pdf/todo:/app/todo
+            - ./pdf/done:/app/done
+```
+
 3. Run `docker compose up` inside that folder to OCR the PDFs and move them into `pdf/done`
 
 ## Quick Start

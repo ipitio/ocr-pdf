@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run inference
-        run: bash predict.sh pdf
+        run: bash src/predict.sh pdf
 
       - name: Save predictions
         id: commit
