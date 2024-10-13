@@ -88,7 +88,7 @@ if __name__ == "__main__":
             continue
 
         merged = pymupdf.open()
-        for pdf in natsorted(pdf_list, alg=ns.IGNORECASE):
+        for pdf in natsorted(pdf_list, key=lambda x: x.name, alg=ns.IGNORECASE):
             merged.insert_pdf(pdf)
 
         merged.save(Path(root + ".pdf"), garbage=4, deflate=True)
