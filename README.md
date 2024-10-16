@@ -4,7 +4,7 @@
 
 # ocr2pdf
 
-**Convert images or scans to searchable PDFs!**
+**Convert images and scans to searchable PDFs!**
 
 ---
 
@@ -18,7 +18,7 @@ I recommend you use either:
 
 - The Bash script, which runs the Python script
 - The Docker image, which runs the Bash script
-- A Google Colab or GitHub Actions server, both of which run the Docker container
+- A Google Colab or GitHub Actions server, both of which run the Docker image
 
 Read on to find out which is best for you!
 
@@ -30,9 +30,9 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 
 Are you on mobile or simply want an easy and seamless experience?
 
-1. Open [the app](https://colab.research.google.com/drive/1yss_oypuRisb29_SnqLGgA759slQzNry) in your browser
-2. Run the cell to convert your files and/or zipped folders
-3. Find the OCR'd files in your [Google Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
+1. Open [Colab](https://colab.research.google.com/github/ipitio/ocr-pdf/blob/master/colab.ipynb) in your browser
+2. Follow the instructions in the notebook
+3. Find the OCR'd files in your [Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
 ### Self-hosted: Prebuilt Docker Image
 
