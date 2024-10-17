@@ -29,8 +29,8 @@ jobs:
       - name: Run inference
         run: |
           docker run \
-            -v ./src:/ocr2pdf \
-            -v ./pdf:/ocr2pdf/pdf \
+            -v ./src:/app \
+            -v ./pdf:/app/pdf \
             ghcr.io/ipitio/ocr-pdf:latest \
             bash predict.sh pdf
 

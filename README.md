@@ -52,7 +52,7 @@ If you want to skip building an image, just use mine:
 
 ```bash
 docker run --rm \
-    -v ./pdf:/ocr2pdf/pdf \
+    -v ./pdf:/app/pdf \
     ghcr.io/ipitio/ocr-pdf:latest \
     bash predict.sh pdf [OCRmyPDF options]
 ```
@@ -77,7 +77,7 @@ git push
 git pull
 ```
 
-To add OCRmyPDF options, edit the command the `predict.yml` file before committing.
+To add OCRmyPDF options, edit the command in the `predict.yml` file before committing.
 
 ### Self-hosted
 
