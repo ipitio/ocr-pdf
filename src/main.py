@@ -3,18 +3,17 @@ This script OCRs files
 """
 
 import os
+import subprocess
 import sys
 from pathlib import Path
 
 import pymupdf
-import pytesseract
 from joblib import Parallel, delayed
 from natsort import natsorted, ns
-from pdf2image import convert_from_path
 from PIL import Image
 
 
-def predict(base: Path, input_file: Path) -> None:
+def predict(base: Path, input_file: Path, args: list[str]) -> None:
     """
     Predicts the text in the input file and saves it to the output file
 
@@ -23,34 +22,27 @@ def predict(base: Path, input_file: Path) -> None:
         input_file (Path): The input file
     """
     relative_path = input_file.relative_to(base / "todo")
-    output_file = base / "done" / relative_path.with_suffix(".pdf")
-
-    if str(input_file).lower().endswith(".pdf"):
-        pages = convert_from_path(input_file, fmt="jpeg")
-    else:
-        try:
-            pages = [Image.open(input_file)]
-        except Exception:
-            return
-
-    print(f"Processing {relative_path}...")
-    doc = pymupdf.open()
-
-    for page in pages:
-        doc.insert_pdf(pymupdf.open("pdf", pytesseract.image_to_pdf_or_hocr(page)))
-
-    if not output_file.parent.exists():
-        output_file.parent.mkdir(exist_ok=True, parents=True)
-
-    doc.save(output_file, garbage=4, deflate=True)
-    doc.close()
 
     try:
+        if not str(input_file).lower().endswith(".pdf"):
+            image = Image.open(input_file)
+            image.convert("RGB").save(input_file, dpi=image.info.get("dpi", (300, 300)))
+
+        output_file = base / "done" / relative_path.with_suffix(".pdf")
+        output_file.parent.mkdir(exist_ok=True, parents=True)
+        subprocess.run(
+            [
+                "bash",
+                "-c",
+                f"ocrmypdf --jobs 1 {' '.join(args)} {input_file} {output_file}",
+            ],
+            check=True,
+        )
         input_file.unlink()
+    except subprocess.CalledProcessError:
+        print(f"Failed to process {relative_path}")
     except Exception:
         pass
-
-    print(f"Processed {relative_path}")
 
 
 if __name__ == "__main__":
@@ -60,7 +52,11 @@ if __name__ == "__main__":
     (pdfs / "done").mkdir(exist_ok=True, parents=True)
 
     Parallel(n_jobs=-1)(
-        delayed(predict)(pdfs, Path(root) / file)
+        delayed(predict)(
+            pdfs,
+            Path(root) / file,
+            sys.argv[2:] if len(sys.argv) > 2 else ["--rotate-pages", "--deskew", "--skip-text", "--invalidate-digital-signatures", "--clean"],
+        )
         for root, _, files in os.walk(pdfs / "todo")
         for file in files
     )
@@ -96,5 +92,3 @@ if __name__ == "__main__":
 
         for pdf in pdf_list:
             pdf.close()
-
-    print("Done")

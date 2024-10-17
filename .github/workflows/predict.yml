@@ -28,9 +28,9 @@ jobs:
 
       - name: Run inference
         run: |
-          docker run --name ocr2pdf \
-            -v ./src:/app \
-            -v ./pdf:/app/pdf \
+          docker run \
+            -v ./src:/ocr2pdf \
+            -v ./pdf:/ocr2pdf/pdf \
             ghcr.io/ipitio/ocr-pdf:latest \
             bash predict.sh pdf
 
@@ -39,4 +39,4 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           add: "**/*.pdf"
-          message: "enhanced pdfs"
+          message: "processed files"
