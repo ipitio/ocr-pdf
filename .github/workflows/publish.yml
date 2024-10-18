@@ -31,8 +31,8 @@ jobs:
           docker run \
             -v ./src:/app \
             -v ./pdf:/app/pdf \
-            $(docker build -q ./src) \
-            bash src/test/example.sh
+            $(docker build ./src) \
+            bash test/example.sh
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3.1.0
