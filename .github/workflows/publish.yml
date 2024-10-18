@@ -8,6 +8,12 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+defaults:
+  run:
+    # GitHub Actions run without a TTY device. This is a workaround to get one,
+    # based on https://github.com/actions/runner/issues/241#issuecomment-2019042651
+    shell: 'script --return --quiet --log-out /dev/null --command "bash -e {0}"'
+
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -19,6 +25,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          docker run \
+            -v ./src:/app \
+            -v ./pdf:/app/pdf \
+            $(docker build -q ./src) \
+            bash src/test/example.sh
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3.1.0

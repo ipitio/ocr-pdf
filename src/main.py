@@ -8,7 +8,6 @@ import sys
 from pathlib import Path
 
 import pymupdf
-from joblib import Parallel, delayed
 from natsort import natsorted, ns
 from PIL import Image
 
@@ -34,7 +33,7 @@ def predict(base: Path, input_file: Path, args: list[str]) -> None:
             [
                 "bash",
                 "-c",
-                f"ocrmypdf --jobs 1 {' '.join(args)} {input_file} {output_file}",
+                f"ocrmypdf {' '.join(args)} {input_file} {output_file}",
             ],
             check=True,
         )
@@ -45,50 +44,77 @@ def predict(base: Path, input_file: Path, args: list[str]) -> None:
         pass
 
 
+def cleanup(root: str, files: list[str]) -> None:
+    """
+    Removes empty directory
+
+    Args:
+        root (str): The root directory
+        files (list[str]): The list of files
+    """
+    if not files:
+        try:
+            os.rmdir(root)
+        except Exception:
+            pass
+
+
+def merge(base: Path, root: str, files: list[str]) -> None:
+    """
+    Merges the PDFs in the list
+
+    Args:
+        base (Path): The base directory
+        root (str): The root directory
+        files (list[str]): The list of files
+    """
+    proot = Path(root)
+    if proot == base / "done":
+        return
+
+    pdf_list = [
+        pymupdf.open(proot / file) for file in files if file.lower().endswith(".pdf")
+    ]
+    if not pdf_list:
+        return
+
+    merged = pymupdf.open()
+    for pdf in natsorted(pdf_list, key=lambda x: x.name, alg=ns.IGNORECASE):
+        merged.insert_pdf(pdf)
+
+    merged.save(Path(root + ".pdf"), garbage=4, deflate=True)
+    merged.close()
+
+    for pdf in pdf_list:
+        pdf.close()
+
+
 if __name__ == "__main__":
     pdfs = Path(sys.argv[1] if len(sys.argv) > 1 else ".")
     pdfs.mkdir(exist_ok=True, parents=True)
     (pdfs / "todo").mkdir(exist_ok=True, parents=True)
     (pdfs / "done").mkdir(exist_ok=True, parents=True)
 
-    Parallel(n_jobs=-1)(
-        delayed(predict)(
-            pdfs,
-            Path(root) / file,
-            sys.argv[2:] if len(sys.argv) > 2 else ["--rotate-pages", "--deskew", "--skip-text", "--invalidate-digital-signatures", "--clean"],
-        )
-        for root, _, files in os.walk(pdfs / "todo")
-        for file in files
-    )
-
-    # Remove empty directories
     for root, _, files in os.walk(pdfs / "todo"):
-        if not files:
-            try:
-                os.rmdir(root)
-            except Exception:
-                pass
+        for file in files:
+            predict(
+                pdfs,
+                Path(root) / file,
+                (
+                    sys.argv[2:]
+                    if len(sys.argv) > 2
+                    else [
+                        "--rotate-pages",
+                        "--deskew",
+                        "--skip-text",
+                        "--invalidate-digital-signatures",
+                        "--clean",
+                    ]
+                ),
+            )
 
-    # Merge PDFs
+    for root, _, files in os.walk(pdfs / "todo"):
+        cleanup(root, files)
+
     for root, _, files in os.walk(pdfs / "done"):
-        proot = Path(root)
-        if proot == pdfs / "done":
-            continue
-
-        pdf_list = [
-            pymupdf.open(proot / file)
-            for file in files
-            if file.lower().endswith(".pdf")
-        ]
-        if not pdf_list:
-            continue
-
-        merged = pymupdf.open()
-        for pdf in natsorted(pdf_list, key=lambda x: x.name, alg=ns.IGNORECASE):
-            merged.insert_pdf(pdf)
-
-        merged.save(Path(root + ".pdf"), garbage=4, deflate=True)
-        merged.close()
-
-        for pdf in pdf_list:
-            pdf.close()
+        merge(pdfs, root, files)

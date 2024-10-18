@@ -13,7 +13,6 @@ if ! apt_install "$langs"; then
 fi
 
 [ -d venv ] || python3 -m venv venv
-export OMP_THREAD_LIMIT=1
 
 if [[ -e venv/bin/pip3 ]]; then
     source venv/bin/activate
