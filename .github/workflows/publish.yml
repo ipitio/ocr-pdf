@@ -33,7 +33,7 @@ jobs:
           docker run \
             -v ./src:/app \
             -v ./pdf:/app/pdf \
-            $(docker build ./src) \
+            $(docker build -q ./src) \
             bash /app/test/example.sh
 
       - name: Log in to the Container registry
