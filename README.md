@@ -1,6 +1,7 @@
 <div align="center">
 
 [![logo](public/wide.webp)](https://github.com/ipitio/ocr-pdf)
+Link to presentation -> https://docs.google.com/presentation/d/1o0IAz4Awh5Gfb3jGGnsWIuF53o3sAy9TA1a3grr7Lf0/edit?usp=sharing
 
 # ocr2pdf
 
