@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import pymupdf
+from joblib import Parallel, delayed
 from natsort import natsorted, ns
 from PIL import Image
 
@@ -113,8 +114,11 @@ if __name__ == "__main__":
                 ),
             )
 
-    for root, _, files in os.walk(pdfs / "todo"):
-        cleanup(root, files)
+    # this can be parallel
+    Parallel(n_jobs=-1)(
+        delayed(cleanup)(root, files) for root, _, files in os.walk(pdfs / "todo")
+    )
 
+    # but the order here matters
     for root, _, files in os.walk(pdfs / "done"):
         merge(pdfs, root, files)
