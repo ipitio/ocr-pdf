@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+defaults:
+  run:
+    # GitHub Actions run without a TTY device. This is a workaround to get one,
+    # based on https://github.com/actions/runner/issues/241#issuecomment-2019042651
+    shell: 'script --return --quiet --log-out /dev/null --command "bash -e {0}"'
+
+jobs:
+  inference:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          docker run \
+            -v ./src:/app \
+            -v ./pdf:/app/pdf \
+            $(docker build -q ./src) \
+            bash /app/test/example.sh
