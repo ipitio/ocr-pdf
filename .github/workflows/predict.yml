@@ -31,7 +31,7 @@ jobs:
           docker run \
             -v ./src:/app \
             -v ./pdf:/app/pdf \
-            ghcr.io/ipitio/ocr-pdf \
+            ghcr.io/ipitio/ocr-pdf:master \
             bash predict.sh pdf
 
       - name: Save predictions
