@@ -53,7 +53,7 @@ If you want to skip building an image, just use mine:
 ```bash
 docker run --rm \
     -v ./pdf:/app/pdf \
-    ghcr.io/ipitio/ocr-pdf:latest \
+    ghcr.io/ipitio/ocr-pdf \
     bash predict.sh pdf [OCRmyPDF options]
 ```
 
