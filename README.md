@@ -23,13 +23,7 @@ I recommend you use either:
 - The Docker image, which runs the Bash script
 - A Google Colab or GitHub Actions server, both of which run the Docker image
 
-Read on to find out which is best for you! In any case, the Bash script is, or must be, called like so:
-
-```bash
-bash /path/to/predict.sh /folder/containing/todo/ [OCRmyPDF options]
-```
-
-For more information, see the [OCRmyPDF documentation](https://ocrmypdf.readthedocs.io/en/latest).
+Read on to find out which is best for you! For more information about the options, see the [OCRmyPDF documentation](https://ocrmypdf.readthedocs.io/en/latest).
 
 ## Fast Start
 
@@ -51,17 +45,15 @@ Do you want to run it on your own machine, but don't want to clone the repo?
 
 1. Ensure you have Docker or Bash and cURL installed
 2. Make a new `pdf` folder and put your files in `pdf/todo`
-3. Run one of the following commands from the parent of `pdf`
+3. Run one of the following commands from the parent of `pdf`:
 
 #### Docker Container
 
 If you want to skip building an image, just use mine:
 
 ```bash
-docker run --rm \
-    -v ./pdf:/app/pdf \
-    ghcr.io/ipitio/ocr-pdf \
-    bash predict.sh pdf [OCRmyPDF options]
+docker run --rm -v ./pdf:/app/pdf ghcr.io/ipitio/ocr-pdf \
+bash predict.sh pdf [OCRmyPDF options]
 ```
 
 #### Bash Script
@@ -69,7 +61,8 @@ docker run --rm \
 Don't want to install Docker? No problem!
 
 ```bash
-curl -sSLNZ https://ipitio.github.io/ocr-pdf/src/predict.sh | bash -s -- pdf [OCRmyPDF options]
+curl -sSLNZ https://ipitio.github.io/ocr-pdf/src/predict.sh |\
+bash -s -- pdf [OCRmyPDF options]
 ```
 
 ## Quick Start

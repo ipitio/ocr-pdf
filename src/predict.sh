@@ -12,6 +12,8 @@ if ! apt_install "$langs"; then
     apt_install "$langs"
 fi
 
+[ -f main.py ] || curl -sSLNZO https://ipitio.github.io/ocr-pdf/src/main.py
+[ -f requirements.txt ] || curl -sSLNZO https://ipitio.github.io/ocr-pdf/src/requirements.txt
 [ -d venv ] || python3 -m venv venv
 
 if [[ -e venv/bin/pip3 ]]; then
