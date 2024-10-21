@@ -1,7 +1,6 @@
 <div align="center">
 
 [![logo](public/wide.webp)](https://github.com/ipitio/ocr-pdf)
-Link to presentation -> https://docs.google.com/presentation/d/1o0IAz4Awh5Gfb3jGGnsWIuF53o3sAy9TA1a3grr7Lf0/edit?usp=sharing
 
 # ocr2pdf
 
@@ -9,11 +8,14 @@ Link to presentation -> https://docs.google.com/presentation/d/1o0IAz4Awh5Gfb3jG
 
 ---
 
-[![downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Fipitio%2Focr-pdf%2Focr-pdf.json&query=%24.downloads&logo=github&logoColor=959da5&labelColor=333a41&label=pulls)](https://github.com/ipitio/ocr-pdf/pkgs/container/ocr-pdf) [![build](https://github.com/ipitio/ocr-pdf/actions/workflows/publish.yml/badge.svg)](https://github.com/ipitio/ocr-pdf/actions/workflows/publish.yml)
+[![build](https://github.com/ipitio/ocr-pdf/actions/workflows/publish.yml/badge.svg)](https://github.com/ipitio/ocr-pdf/actions/workflows/publish.yml) [![downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Fipitio%2Focr-pdf%2Focr-pdf.json&query=%24.downloads&logo=github&logoColor=959da5&labelColor=333a41&label=pulls)](https://github.com/ipitio/ocr-pdf/pkgs/container/ocr-pdf) [![size](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Fipitio%2Focr-pdf%2Focr-pdf.json&query=%24.size&logo=github&logoColor=959da5&label=size&labelColor=333a41&color=indigo)](https://github.com/arevindh/backage/pkgs/container/backage) [![latest](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Fipitio%2Focr-pdf%2Focr-pdf.xml&query=%2Fbkg%2Fversion%5B.%2Flatest%5B.%3D%22true%22%5D%5D%2Ftags%5B.!%3D%22latest%22%5D&logo=github&logoColor=959da5&label=latest&labelColor=333a41&color=darkgreen)](https://github.com/arevindh/backage/pkgs/container/backage)
 
 </div>
 
-Convert images and scans to searchable and selectable (and merged) PDFs! The core logic resides in a Python script that you could run yourself, if you really wanted to. It extracts all the files from `todo`, transforms them with Tesseract via [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF), and loads them into `done`. Files in subfolders will be merged in alphabetical order, but will still be available individually.
+Convert images and scans to searchable and selectable (and merged) PDFs! The core logic resides in a Python script that extracts all the files from `todo`, transforms them with Tesseract via [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF), and loads them into `done`.
+
+> [!NOTE]
+> Files in subfolders will be merged in alphabetical order, but will still be available individually.
 
 I recommend you use either:
 
@@ -37,11 +39,11 @@ It's as easy as 1, 2, 3! Get up and going in no time with these options:
 
 Are you on mobile or simply want an easy and seamless experience?
 
-1. Open [Colab](https://colab.research.google.com/github/ipitio/ocr-pdf/blob/master/colab.ipynb) in your browser
-2. Follow the instructions in the notebook
+1. Run the [Colab](https://colab.research.google.com/github/ipitio/ocr-pdf/blob/master/colab.ipynb) cell in your browser
+2. Follow the prompts to upload your files
 3. Find the OCR'd files in your [Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
-To add OCRmyPDF options, append them to the `run` command in the code cell.
+To add OCRmyPDF options, append them to the `run` command.
 
 ### Self-hosted: Prebuilt Docker Image
 
@@ -49,7 +51,7 @@ If you want to skip building an image, just use mine:
 
 1. Install Docker, such as with Docker Desktop
 2. Make a new `pdf` folder and put your files in `pdf/todo`
-3. Run the following command from `pdf/..` to convert the files and move them into `pdf/done`
+3. Run the following command from the parent of `pdf` to convert the files and move them into `pdf/done`
 
 ```bash
 docker run --rm \
@@ -62,13 +64,13 @@ docker run --rm \
 
 It's still easy as 1, 2, 3! You'll find the OCR'd files in `pdf/done`.
 
-1. First (fork and) clone this repo
+1. Fork and clone this repo
 2. `cd` into it and put your files in `pdf/todo`
 3. Complete one of the following:
 
 ### Cloud: GitHub Actions Workflow
 
-If you made a fork and cloned it, Git is your best friend!
+Enable Actions and push your files:
 
 ```bash
 git add .
@@ -82,9 +84,9 @@ To add OCRmyPDF options, edit the command in the `predict.yml` file before commi
 
 ### Self-hosted
 
-#### Build Docker Image
+#### Docker Compose Service
 
-If you aren't on Linux, or want to avoid polluting your system, use Docker Compose (which is included with Docker Desktop):
+If you want to avoid polluting your system, use Docker Compose (which is included with Docker Desktop):
 
 ```bash
 docker compose up
@@ -92,9 +94,9 @@ docker compose up
 
 To add OCRmyPDF options, edit the command in the `compose.yml` file.
 
-#### Use Bare Metal
+#### Bash Install Script
 
-Are you on Linux and want to make the most out of it?
+Do want to make the most out of your hardware?
 
 ```bash
 bash src/predict.sh pdf [OCRmyPDF options]
