@@ -4,7 +4,7 @@
 
 # ocr2pdf
 
-**OCRmyPDF and Merge it**
+**Merge images into actual PDFs with AI**
 
 ---
 
@@ -12,30 +12,24 @@
 
 </div>
 
-Convert images and scans to searchable and selectable (and merged) PDFs! The core logic resides in a Python script that extracts all the files from `todo`, transforms them with Tesseract via [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF), and loads them into `done`.
+Merge images and scans into searchable and selectable PDFs! The core logic resides in a Python script that transforms the files with Tesseract via [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF). For information about available options, see the [OCRmyPDF documentation](https://ocrmypdf.readthedocs.io/en/latest).
+
+A Bash script is provided to automate the installation of dependencies and the execution of the Python script. The Docker image provides a self-contained virtual environment that runs the Bash script in a container. The Google Colab notebook and GitHub Actions workflow both run the container in the cloud.
 
 > [!NOTE]
 > Files in subfolders will be merged in alphabetical order, but will still be available individually.
 
-I recommend you use either:
-
-- The Bash script, which runs the Python script
-- The Docker image, which runs the Bash script
-- A Google Colab or GitHub Actions server, both of which run the Docker image
-
-Read on to find out which is best for you! For more information about the options, see the [OCRmyPDF documentation](https://ocrmypdf.readthedocs.io/en/latest).
-
 ## Fast Start
 
-It's as easy as 1, 2, 3! Get up and going in no time with these options:
+Get up and going in no time with these options:
 
 ### Cloud: Google Colab Notebook
 
 Are you on mobile or simply want an easy and seamless experience?
 
-1. Open [Colab](https://colab.research.google.com/github/ipitio/ocr-pdf/blob/master/colab.ipynb) cell in [Chrome](https://stackoverflow.com/a/48777857)
+1. Open [Colab](https://colab.research.google.com/github/ipitio/ocr-pdf/blob/master/colab.ipynb) in [Chrome](https://stackoverflow.com/a/48777857)
 2. Run the cell and follow the prompts
-3. Find the OCR'd files in your [Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
+3. Find the PDFs in your [Drive](https://drive.google.com/drive/my-drive)`/ocr-pdf`
 
 To add OCRmyPDF options, append them to the `run` command.
 
@@ -43,16 +37,16 @@ To add OCRmyPDF options, append them to the `run` command.
 
 Do you want to run it on your own machine, but don't want to clone the repo?
 
-1. Ensure you have Docker or Bash and cURL installed
-2. Make a new `pdf` folder and put your files in `pdf/todo`
-3. Run one of the following commands from the parent of `pdf`:
+1. Ensure you have Docker, or Bash and cURL, installed
+2. Make two new nested folders and put your files in them: `pdf/todo/*`
+3. Run one of the following from the outer `pdf` folder:
 
 #### Docker Container
 
 If you want to skip building an image, just use mine:
 
 ```bash
-docker run --rm -v ./pdf:/app/pdf ghcr.io/ipitio/ocr-pdf \
+docker run --rm -v .:/app/pdf ghcr.io/ipitio/ocr-pdf \
 bash predict.sh pdf [OCRmyPDF options]
 ```
 
@@ -62,20 +56,20 @@ Don't want to install Docker? No problem!
 
 ```bash
 curl -sSLNZ https://ipitio.github.io/ocr-pdf/src/predict.sh |\
-bash -s -- pdf [OCRmyPDF options]
+bash -s -- . [OCRmyPDF options]
 ```
 
 ## Quick Start
 
-It's still easy as 1, 2, 3!
+It's still as easy as 1, 2, 3!
 
 1. Fork and clone this repo
-2. Put your files in `pdf/todo`
+2. Put your files in `pdf/todo/`
 3. Complete one of the following from the root of the repo:
 
 ### Cloud: GitHub Actions Workflow
 
-Enable Actions and push your files:
+Enable Actions on GitHub, then push your files:
 
 ```bash
 git add .
