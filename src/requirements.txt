@@ -3,3 +3,4 @@ pillow==10.4.0
 joblib==1.4.2
 psutil
 natsort
+pytesseract

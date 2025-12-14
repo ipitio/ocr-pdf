@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import pymupdf
+import pytesseract
 from joblib import Parallel, delayed
 from natsort import natsorted, ns
 from PIL import Image
@@ -24,12 +25,35 @@ def predict(base: Path, input_file: Path, args: list[str]) -> None:
     relative_path = input_file.relative_to(base / "todo")
 
     try:
+        dpi = 0
         if not str(input_file).lower().endswith(".pdf"):
             image = Image.open(input_file)
-            image.convert("RGB").save(input_file, dpi=image.info.get("dpi", (300, 300)))
+            if "dpi" in image.info:
+                dpi = max(image.info["dpi"])
+            else:
+                data = pytesseract.image_to_data(
+                    image, output_type=pytesseract.Output.DICT
+                )
+                heights = [
+                    data["height"][i]
+                    for i in range(len(data["text"]))
+                    if int(data["conf"][i]) > 0
+                ]
+                if heights:
+                    median_height = sorted(heights)[len(heights) // 2]
+                    dpi = int(72 * (image.height / median_height))
+                # if dpi does not make sense, set to 300
+                if dpi < 50 or dpi > 1200:
+                    dpi = 300
+            image.convert("RGB").save(input_file, dpi=image.info.get("dpi", (dpi, dpi)))
 
         output_file = base / "done" / relative_path.with_suffix(".pdf")
         output_file.parent.mkdir(exist_ok=True, parents=True)
+
+        # if --image-dpi is not set and dpi is known, add it
+        if dpi > 0 and not any(arg.startswith("--image-dpi") for arg in args):
+            args.extend(["--image-dpi", str(dpi)])
+
         subprocess.run(
             [
                 "bash",
